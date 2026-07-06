@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-navy: #0a1b2f;
+  --color-navy-dark: #050d17;
+  --color-navy-light: #142944;
+  --color-gold: #d4af37;
+  --color-gold-light: #e8ca6e;
+  --color-gold-dark: #a3811f;
+  --color-ink: #111111;
+  --color-paper: #ffffff;
+  --color-cream: #faf8f4;
+  --color-mist: #6b7280;
+  --color-mist-light: #eef0f3;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-navy: var(--color-navy);
+  --color-navy-dark: var(--color-navy-dark);
+  --color-navy-light: var(--color-navy-light);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-gold-dark: var(--color-gold-dark);
+  --color-ink: var(--color-ink);
+  --color-paper: var(--color-paper);
+  --color-cream: var(--color-cream);
+  --color-mist: var(--color-mist);
+  --color-mist-light: var(--color-mist-light);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-poppins);
+  --font-display: var(--font-poppins);
+  --font-serif: var(--font-fraunces);
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    border-color: var(--color-mist-light);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-navy);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .container-nomert {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-nomert {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-nomert {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .clip-hexagon {
+    clip-path: polygon(
+      25% 3%,
+      75% 3%,
+      100% 50%,
+      75% 97%,
+      25% 97%,
+      0% 50%
+    );
+  }
+
+  .clip-hexagon-flat {
+    clip-path: polygon(
+      6.7% 0%,
+      93.3% 0%,
+      100% 50%,
+      93.3% 100%,
+      6.7% 100%,
+      0% 50%
+    );
+  }
+
+  .bg-brand-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23D4AF37' stroke-width='1' stroke-opacity='0.16'%3E%3Cpath d='M20 10 L20 50 L50 50 L50 90'/%3E%3Cpath d='M40 10 L40 50 L70 50 L70 90'/%3E%3Cpath d='M70 10 L70 50 L100 50 L100 90'/%3E%3Cpath d='M0 70 L30 70 L30 110'/%3E%3Cpath d='M90 30 L120 30'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
+  }
+
+  .text-gold-gradient {
+    background: linear-gradient(
+      120deg,
+      var(--color-gold-dark) 0%,
+      var(--color-gold-light) 50%,
+      var(--color-gold) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: var(--animate-fade-up);
+  }
+
+  .fade-up-1 {
+    animation-delay: 0.08s;
+  }
+  .fade-up-2 {
+    animation-delay: 0.18s;
+  }
+  .fade-up-3 {
+    animation-delay: 0.28s;
+  }
+  .fade-up-4 {
+    animation-delay: 0.38s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up,
+    .animate-marquee {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 }
