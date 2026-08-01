@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-navy">
       <div className="absolute inset-0">
-        <Photo imageKey="hero" shape="full" grounding={false} priority className="h-full w-full" sizes="100vw" />
+        <Photo imageKey="whiteSubwayTileBathroomFinished" shape="full" grounding={false} priority className="h-full w-full" sizes="100vw" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/92 to-navy/55" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/10 to-transparent" />
         <div className="bg-brand-pattern absolute inset-0 opacity-30 mix-blend-overlay" />

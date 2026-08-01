@@ -20,6 +20,7 @@ interface EnquiryFormProps {
 
 export function EnquiryForm({ defaultService, theme = "light", className }: EnquiryFormProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const {
     register,
     handleSubmit,
@@ -44,9 +45,14 @@ export function EnquiryForm({ defaultService, theme = "light", className }: Enqu
   const errorText = "mt-1.5 text-xs font-medium text-red-400";
 
   async function onSubmit(values: EnquiryFormValues) {
-    await submitEnquiry(values);
-    setSubmitted(true);
-    reset();
+    try {
+      setSubmitError(false);
+      await submitEnquiry(values);
+      setSubmitted(true);
+      reset();
+    } catch {
+      setSubmitError(true);
+    }
   }
 
   if (submitted) {
@@ -181,6 +187,12 @@ export function EnquiryForm({ defaultService, theme = "light", className }: Enqu
           ))}
         </div>
       </fieldset>
+
+      {submitError && (
+        <p className="text-center text-sm font-medium text-red-400">
+          Something went wrong sending your enquiry — please try again, or call/WhatsApp us directly.
+        </p>
+      )}
 
       <Button type="submit" variant="primary" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? (

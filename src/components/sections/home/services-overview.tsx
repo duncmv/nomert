@@ -16,7 +16,7 @@ export function ServicesOverview() {
       <Container>
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <SectionHeading
-            index="02"
+            index="01"
             eyebrow="Property Services"
             title="What we deliver, start to finish"
             description="Property maintenance is our primary focus — general repairs, refurbishments and home improvements delivered by one team, from quotation through to completion."

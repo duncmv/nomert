@@ -3,13 +3,18 @@ import { notFound } from "next/navigation";
 import { CheckCircle, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { PageHero } from "@/components/sections/page-hero";
 import { CtaBanner } from "@/components/sections/cta-banner";
+import { RecentWorkStrip } from "@/components/sections/recent-work-strip";
 import { Container } from "@/components/ui/container";
 import { Photo } from "@/components/ui/photo";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { ServiceCard } from "@/components/ui/service-card";
+import { TestimonialCard } from "@/components/ui/testimonial-card";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal, RevealGroup } from "@/components/ui/reveal";
 import { propertyServices, findService } from "@/lib/services-data";
 import { siteConfig } from "@/lib/site-config";
+import { workPhotos } from "@/lib/work-photos";
+import { testimonials } from "@/lib/testimonials-data";
 
 export function generateStaticParams() {
   return propertyServices.map((s) => ({ slug: s.slug }));
@@ -40,6 +45,8 @@ export default async function PropertyServiceDetailPage({
 
   const Icon = service.icon;
   const related = propertyServices.filter((s) => s.slug !== service.slug).slice(0, 3);
+  const recentWork = workPhotos.filter((p) => p.category === service.slug);
+  const matchingReview = testimonials.find((t) => t.service === service.name);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -124,6 +131,19 @@ export default async function PropertyServiceDetailPage({
           </div>
         </Container>
       </section>
+
+      <RecentWorkStrip photos={recentWork} title={`Recent ${service.name.toLowerCase()} work`} tone="white" />
+
+      {matchingReview && (
+        <section className="bg-cream py-24 sm:py-28">
+          <Container className="mx-auto max-w-2xl">
+            <SectionHeading eyebrow="Reviews" title="What a recent client said" align="center" />
+            <div className="mt-10">
+              <TestimonialCard testimonial={matchingReview} />
+            </div>
+          </Container>
+        </section>
+      )}
 
       <section className="bg-white py-24 sm:py-28">
         <Container>

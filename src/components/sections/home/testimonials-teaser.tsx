@@ -14,7 +14,7 @@ export function TestimonialsTeaser() {
       <Container>
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <SectionHeading
-            index="04"
+            index="07"
             eyebrow="Reviews"
             title="What clients say about working with us"
           />

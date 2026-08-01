@@ -1,20 +1,31 @@
 import type { EnquiryFormValues } from "@/lib/enquiry-schema";
 
 /**
- * Single integration point for enquiry/quote form submissions.
- *
- * Not wired to a backend yet. To go live: replace the body with a call to
- * an API route (e.g. `app/api/enquiry/route.ts`) that sends the payload to
- * an email service (Resend, Postmark, etc.) or CRM. Every form on the site
- * calls this one function, so wiring up delivery here is the only change
- * needed to make every service page's quote form functional.
+ * Single integration point for enquiry/quote form submissions — every form
+ * on the site calls this one function. Posts to /api/enquiry, which emails
+ * the enquiry via Resend once RESEND_API_KEY and ENQUIRY_TO_EMAIL are set
+ * (see .env.example); until then the route logs it server-side instead of
+ * failing, so the form still works end-to-end in dev/staging.
  */
 export async function submitEnquiry(values: EnquiryFormValues): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 900));
-  if (process.env.NODE_ENV !== "production") {
-    console.info("[enquiry] not yet wired to a backend — captured locally:", {
-      ...values,
-      photos: values.photos?.length ? `${values.photos.length} file(s)` : "none",
-    });
+  const formData = new FormData();
+  formData.set("name", values.name);
+  formData.set("telephone", values.telephone);
+  formData.set("email", values.email);
+  formData.set("address", values.address);
+  formData.set("service", values.service);
+  formData.set("description", values.description);
+  formData.set("preferredContact", values.preferredContact);
+
+  const photos = values.photos as FileList | undefined;
+  if (photos) {
+    for (const file of Array.from(photos)) {
+      formData.append("photos", file);
+    }
+  }
+
+  const response = await fetch("/api/enquiry", { method: "POST", body: formData });
+  if (!response.ok) {
+    throw new Error("Failed to submit enquiry");
   }
 }

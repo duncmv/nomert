@@ -1,11 +1,7 @@
 import Image from "next/image";
 import { stockImages } from "@/lib/stock-images";
+import { resolveImageSrc } from "@/lib/image-src";
 import { cn } from "@/lib/utils";
-
-function buildSrc(url: string, width: number) {
-  const hasQuery = url.includes("?");
-  return `${url}${hasQuery ? "&" : "?"}auto=format&fit=crop&w=${width}&q=80`;
-}
 
 interface PhotoProps {
   imageKey: keyof typeof stockImages | string;
@@ -39,6 +35,7 @@ export function Photo({
 }: PhotoProps) {
   const image = stockImages[imageKey];
   if (!image) return null;
+  const { src, unoptimized } = resolveImageSrc(image.url, width);
 
   return (
     <div
@@ -49,12 +46,12 @@ export function Photo({
       )}
     >
       <Image
-        src={buildSrc(image.url, width)}
+        src={src}
         alt={image.alt}
         fill
         sizes={sizes}
         priority={priority}
-        unoptimized
+        unoptimized={unoptimized}
         className="object-cover"
       />
       <div className="pointer-events-none absolute inset-0 bg-navy mix-blend-multiply opacity-[0.08]" />

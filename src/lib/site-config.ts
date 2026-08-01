@@ -1,9 +1,10 @@
 /**
  * Central business/site configuration.
  *
- * PLACEHOLDER CONTENT: phone, email, address, and service areas below use
- * Ofcom-reserved fictional numbers / illustrative copy so nothing "real"
- * accidentally ships. Replace every value marked TODO before launch.
+ * PLACEHOLDER CONTENT: phone, email and address below use Ofcom-reserved
+ * fictional numbers / illustrative copy so nothing "real" accidentally
+ * ships. Replace every value marked TODO before launch. Service areas are
+ * confirmed (not a placeholder).
  */
 
 export const siteConfig = {
@@ -26,6 +27,9 @@ export const siteConfig = {
     mapEmbedSrc: "https://maps.google.com/maps?q=London,UK&z=11&output=embed", // TODO: replace with real business location pin
   },
 
+  // TODO: get from Nomert before launch — footer only renders this line once it's set
+  companyRegistrationNumber: undefined as string | undefined,
+
   social: {
     instagram: "https://instagram.com/nomertpropertyservices",
     facebook: "https://facebook.com/nomertpropertyservices",
@@ -33,30 +37,17 @@ export const siteConfig = {
     handle: "@nomertpropertyservices",
   },
 
-  serviceAreas: [
-    "Westminster",
-    "Kensington & Chelsea",
-    "Camden",
-    "Islington",
-    "Hackney",
-    "Tower Hamlets",
-    "Wandsworth",
-    "Lambeth",
-    "Southwark",
-    "Richmond upon Thames",
-    "Barnet",
-    "Ealing",
-  ], // TODO: confirm actual coverage area
+  serviceAreas: ["Bromley", "Croydon", "Lewisham", "Greenwich", "Bexley", "South East London"],
 
   stats: [
     { value: 12, suffix: "+", label: "Years combined trade experience" },
     { value: 480, suffix: "+", label: "Properties maintained & improved" },
     { value: 4.9, suffix: "/5", label: "Average client rating", decimals: 1 },
-    { value: 100, suffix: "%", label: "Fully insured, vetted team" },
+    { value: 100, suffix: "%", label: "Vetted, reliable team" },
   ],
 
+  // "Fully Insured" removed until confirmed by Nomert — re-add once insurance is confirmed
   trustBadges: [
-    "Fully Insured",
     "DBS-Checked Team",
     "Free, No-Obligation Quotes",
     "London-Wide Coverage",
@@ -65,29 +56,11 @@ export const siteConfig = {
   ],
 
   nav: [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    {
-      label: "Services",
-      children: [
-        {
-          label: "Property Services",
-          href: "/property-services",
-          description: "Repairs, refurbishments & improvements",
-        },
-        {
-          label: "Cleaning Services",
-          href: "/cleaning-services",
-          description: "Residential, commercial & specialist cleaning",
-        },
-        {
-          label: "Commercial Services",
-          href: "/commercial-services",
-          description: "Maintenance & facilities for businesses",
-        },
-      ],
-    },
+    { label: "Property Services", href: "/property-services" },
+    { label: "Cleaning Services", href: "/cleaning-services" },
+    { label: "Commercial Services", href: "/commercial-services" },
     { label: "Gallery", href: "/gallery" },
+    { label: "About", href: "/about" },
     { label: "Reviews", href: "/reviews" },
     { label: "Contact", href: "/contact" },
   ],

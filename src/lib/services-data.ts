@@ -116,7 +116,7 @@ export const propertyServices: Service[] = [
       "Full refresh packages available",
     ],
     icon: Bathtub,
-    imageKey: "bathroom",
+    imageKey: "whiteSubwayTileBathroomFinished",
   },
   {
     slug: "kitchen-refreshes",
@@ -150,7 +150,7 @@ export const propertyServices: Service[] = [
       "Turnaround planned around your letting schedule",
     ],
     icon: Buildings,
-    imageKey: "landlordRefurb",
+    imageKey: "landlordRefurb", // TODO: replace once real landlord refurbishment photos are supplied
   },
   {
     slug: "end-of-tenancy-repairs",
@@ -198,7 +198,7 @@ export const cleaningServices: Service[] = [
       "A dependable clean, every time. Our residential cleaning team follows a consistent checklist so your home is cared for the same way on every visit.",
     highlights: ["Regular or one-off visits", "Consistent checklist standard", "Vetted, insured team"],
     icon: SprayBottle,
-    imageKey: "residentialCleaning",
+    imageKey: "kitchenCabinetsCleanDetail",
   },
   {
     slug: "commercial-cleaning",
@@ -220,7 +220,7 @@ export const cleaningServices: Service[] = [
       "Deep cleaning covers the detail a routine visit doesn't — behind appliances, inside cabinets, and every overlooked surface — leaving a property genuinely reset.",
     highlights: ["Full property deep clean", "Kitchen and bathroom detailing", "One-off or seasonal booking"],
     icon: Sparkle,
-    imageKey: "cleaningHub",
+    imageKey: "fridgeInteriorDeepClean",
   },
   {
     slug: "end-of-tenancy-cleaning",
@@ -231,7 +231,7 @@ export const cleaningServices: Service[] = [
       "Our end of tenancy clean is built around the standard letting agents and landlords expect at check-out, helping the handover go smoothly for everyone involved.",
     highlights: ["Move-out standard checklist", "Kitchen and bathroom deep clean", "Fast turnaround between tenancies"],
     icon: Key,
-    imageKey: "endOfTenancy",
+    imageKey: "bedroomAfterClean5",
   },
   {
     slug: "communal-area-cleaning",
@@ -242,7 +242,7 @@ export const cleaningServices: Service[] = [
       "Communal spaces set the tone for an entire building. We keep hallways, stairwells, lifts and entrances to a consistent, presentable standard on a scheduled visit basis.",
     highlights: ["Hallways, stairwells and lobbies", "Scheduled recurring visits", "Managing agent reporting available"],
     icon: Buildings,
-    imageKey: "commercialCleaning",
+    imageKey: "communalLobbyFinished",
   },
   {
     slug: "window-cleaning",
@@ -289,7 +289,7 @@ export const commercialServices: Service[] = [
       "Ongoing maintenance cover for commercial buildings — general repairs, upkeep and presentation — delivered by one accountable team.",
     highlights: ["Ongoing maintenance cover", "Single point of accountability", "Scheduled site visits"],
     icon: Wrench,
-    imageKey: "propertyServicesHub",
+    imageKey: "officeCorridorFinished",
   },
   {
     slug: "facilities-management",
@@ -300,7 +300,7 @@ export const commercialServices: Service[] = [
       "Day-to-day facilities support covering maintenance, cleaning and general upkeep, coordinated as a single service for the buildings you manage.",
     highlights: ["Day-to-day facilities support", "Maintenance and cleaning combined", "Scalable to contract size"],
     icon: ClipboardText,
-    imageKey: "facilitiesManagement",
+    imageKey: "officeFloorDesksFinished",
   },
   {
     slug: "reactive-maintenance",
@@ -311,7 +311,7 @@ export const commercialServices: Service[] = [
       "When something breaks, it needs fixing — not a queue. Our reactive maintenance service is built for fast response and prompt resolution on commercial premises.",
     highlights: ["Fast-response call-outs", "Fault diagnosis and repair", "Clear reporting after every visit"],
     icon: ArrowsClockwise,
-    imageKey: "handyman",
+    imageKey: "commercialPlasteringInProgress",
   },
   {
     slug: "planned-maintenance",
@@ -322,7 +322,7 @@ export const commercialServices: Service[] = [
       "Preventative, scheduled maintenance visits that catch issues early — reducing downtime, reducing cost, and keeping commercial premises running properly.",
     highlights: ["Scheduled preventative visits", "Reduced reactive call-outs", "Maintenance planning and reporting"],
     icon: CalendarCheck,
-    imageKey: "facilitiesManagement",
+    imageKey: "officeDeskAreaFinished",
   },
   {
     slug: "commercial-property-improvements",
@@ -333,7 +333,7 @@ export const commercialServices: Service[] = [
       "From refreshed communal areas to full space improvements, we deliver commercial upgrade works with the planning and communication that minimises disruption to your operation.",
     highlights: ["Space and communal area upgrades", "Planned around operating hours", "One team, start to finish"],
     icon: Buildings,
-    imageKey: "commercialBuilding",
+    imageKey: "officeBrandedWallFinished",
   },
 ];
 

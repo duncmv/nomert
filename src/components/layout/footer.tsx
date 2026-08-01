@@ -117,17 +117,29 @@ export function Footer() {
               <span>{siteConfig.contact.addressLine2}</span>
             </li>
           </ul>
+          <p className="mt-5 text-xs leading-relaxed text-white/45">
+            Covering {siteConfig.serviceAreas.join(", ")}
+          </p>
         </div>
       </Container>
 
       <div className="border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-white/40 sm:flex-row">
           <p>
-            &copy; {year} {siteConfig.legalName}. All rights reserved.
+            &copy; {year} {siteConfig.legalName}
+            {siteConfig.companyRegistrationNumber && (
+              <> &middot; Company No. {siteConfig.companyRegistrationNumber}</>
+            )}
+            . All rights reserved.
           </p>
-          <p className="text-center sm:text-right">
-            {siteConfig.brandName} is a trading division of {siteConfig.legalName}.
-          </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="hover:text-gold">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-gold">
+              Terms and Conditions
+            </Link>
+          </div>
         </Container>
       </div>
     </footer>

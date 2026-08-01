@@ -2,12 +2,16 @@ import type { Metadata } from "next";
 import { Phone, Buildings, TrendUp } from "@phosphor-icons/react/dist/ssr";
 import { PageHero } from "@/components/sections/page-hero";
 import { CtaBanner } from "@/components/sections/cta-banner";
+import { RecentWorkStrip } from "@/components/sections/recent-work-strip";
 import { Container } from "@/components/ui/container";
 import { ServiceCard } from "@/components/ui/service-card";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { RevealGroup, Reveal } from "@/components/ui/reveal";
 import { commercialServices } from "@/lib/services-data";
 import { siteConfig } from "@/lib/site-config";
+import { workPhotos } from "@/lib/work-photos";
+
+const commercialPhotos = workPhotos.filter((p) => p.category === "commercial");
 
 export const metadata: Metadata = {
   title: "Commercial Services",
@@ -98,6 +102,8 @@ export default async function CommercialServicesPage({
           </div>
         </Container>
       </section>
+
+      <RecentWorkStrip photos={commercialPhotos} title="Recent commercial work" tone="cream" limit={8} />
 
       <CtaBanner />
     </>

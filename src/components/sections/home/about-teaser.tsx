@@ -34,7 +34,7 @@ export function AboutTeaser() {
 
         <div>
           <SectionHeading
-            index="01"
+            index="06"
             eyebrow="Who We Are"
             title="A single, accountable team looking after your property"
             description="Nomert Property Services delivers property maintenance, repairs, refurbishments and home improvements across London. We handle every stage of the works ourselves — you're hiring one team, not coordinating a list of tradespeople."

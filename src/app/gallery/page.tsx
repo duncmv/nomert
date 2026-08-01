@@ -7,7 +7,7 @@ import { GalleryGrid } from "@/components/gallery-grid";
 export const metadata: Metadata = {
   title: "Gallery",
   description:
-    "Browse our gallery of painting, bathroom, flooring, repair, cleaning and before-and-after property projects across London.",
+    "Browse real photos of Nomert's completed bathroom, commercial and cleaning work across London, including before-and-after transformations.",
 };
 
 export default function GalleryPage() {
@@ -16,7 +16,7 @@ export default function GalleryPage() {
       <PageHero
         eyebrow="Gallery"
         title="A look at the standard we work to"
-        description="Painting, bathrooms, flooring, repairs, cleaning and before-and-after transformations from recent projects."
+        description="Real photos from real jobs — bathrooms, commercial fit-outs, cleaning and before-and-after transformations. More trades are added as new work is completed."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Gallery" }]}
       />
 

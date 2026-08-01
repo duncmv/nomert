@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
 import { CtaBanner } from "@/components/sections/cta-banner";
+import { RecentWorkStrip } from "@/components/sections/recent-work-strip";
 import { Container } from "@/components/ui/container";
 import { ServiceCard } from "@/components/ui/service-card";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { RevealGroup, Reveal } from "@/components/ui/reveal";
 import { cleaningServices } from "@/lib/services-data";
+import { workPhotos, type WorkPhotoCategory } from "@/lib/work-photos";
+
+const CLEANING_CATEGORIES: WorkPhotoCategory[] = [
+  "end-of-tenancy-cleaning",
+  "communal-area-cleaning",
+  "deep-cleaning",
+  "residential-cleaning",
+];
+const cleaningPhotos = workPhotos.filter((p) => CLEANING_CATEGORIES.includes(p.category));
 
 export const metadata: Metadata = {
   title: "Cleaning Services",
@@ -63,6 +73,8 @@ export default async function CleaningServicesPage({
           </div>
         </Container>
       </section>
+
+      <RecentWorkStrip photos={cleaningPhotos} title="Recent cleaning work" tone="cream" limit={8} />
 
       <CtaBanner />
     </>

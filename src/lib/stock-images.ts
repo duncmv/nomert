@@ -1,10 +1,12 @@
+import { workPhotos } from "@/lib/work-photos";
+
 export interface StockImage {
-  url: string; // base Unsplash CDN URL, no query params
+  url: string; // base Unsplash CDN URL (remote) or /images/... path (local), no query params
   alt: string; // descriptive alt text for accessibility
   credit?: string; // photographer name if easily found on the page, else omit
 }
 
-export const stockImages: Record<string, StockImage> = {
+const curatedStockImages: Record<string, StockImage> = {
   hero: {
     url: "https://images.unsplash.com/photo-1510265236892-329bfd7de7a1",
     alt: "Elegant white period townhouses on a picturesque London mews street",
@@ -100,4 +102,18 @@ export const stockImages: Record<string, StockImage> = {
     alt: "House exterior renovation in progress with active building work",
     credit: "Brett Jordan",
   },
+};
+
+const realWorkImages: Record<string, StockImage> = Object.fromEntries(
+  workPhotos.map((photo) => [photo.key, { url: photo.src, alt: photo.alt }])
+);
+
+/**
+ * Every `imageKey` on the site resolves through this combined map — curated
+ * stock placeholders for services without real photos yet, merged with the
+ * real completed-work catalog from work-photos.ts.
+ */
+export const stockImages: Record<string, StockImage> = {
+  ...curatedStockImages,
+  ...realWorkImages,
 };

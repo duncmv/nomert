@@ -1,35 +1,73 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { X, CaretLeft, CaretRight } from "@phosphor-icons/react";
-import { galleryCategories, galleryItems, type GalleryCategory } from "@/lib/gallery-data";
+import {
+  galleryCategories,
+  galleryItems,
+  beforeAfterGalleryPairs,
+  type GalleryCategory,
+  type GalleryItem,
+} from "@/lib/gallery-data";
 import { stockImages } from "@/lib/stock-images";
+import { resolveImageSrc } from "@/lib/image-src";
 import { Photo } from "@/components/ui/photo";
 import { cn } from "@/lib/utils";
 
-function buildSrc(url: string, width: number) {
-  const hasQuery = url.includes("?");
-  return `${url}${hasQuery ? "&" : "?"}auto=format&fit=crop&w=${width}&q=85`;
-}
+const BEFORE_AFTER_LABEL = "Before & After";
+
+const beforeAfterLightboxItems: GalleryItem[] = beforeAfterGalleryPairs.flatMap((pair) => [
+  { imageKey: pair.beforeKey, category: BEFORE_AFTER_LABEL, caption: pair.beforeCaption },
+  { imageKey: pair.afterKey, category: BEFORE_AFTER_LABEL, caption: pair.afterCaption },
+]);
 
 export function GalleryGrid() {
   const [active, setActive] = useState<GalleryCategory>("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const isBeforeAfter = active === BEFORE_AFTER_LABEL;
 
   const filtered = useMemo(
     () => (active === "All" ? galleryItems : galleryItems.filter((item) => item.category === active)),
     [active]
   );
 
-  const current = lightboxIndex !== null ? filtered[lightboxIndex] : null;
+  const lightboxItems = isBeforeAfter ? beforeAfterLightboxItems : filtered;
+
+  const current = lightboxIndex !== null ? lightboxItems[lightboxIndex] : null;
   const currentImage = current ? stockImages[current.imageKey] : null;
+  const currentResolved = currentImage ? resolveImageSrc(currentImage.url, 1600) : null;
 
   function show(delta: number) {
-    if (lightboxIndex === null) return;
-    setLightboxIndex((lightboxIndex + delta + filtered.length) % filtered.length);
+    setLightboxIndex((i) => {
+      if (i === null) return i;
+      return (i + delta + lightboxItems.length) % lightboxItems.length;
+    });
   }
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowLeft") show(-1);
+      if (e.key === "ArrowRight") show(1);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightboxIndex, lightboxItems.length]);
+
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    counts.set("All", galleryItems.length);
+    counts.set(BEFORE_AFTER_LABEL, beforeAfterGalleryPairs.length);
+    for (const item of galleryItems) {
+      counts.set(item.category, (counts.get(item.category) ?? 0) + 1);
+    }
+    return counts;
+  }, []);
 
   return (
     <div>
@@ -47,31 +85,78 @@ export function GalleryGrid() {
             )}
           >
             {category}
+            <span className={cn("ml-1.5", active === category ? "text-navy/60" : "text-mist")}>
+              {categoryCounts.get(category) ?? 0}
+            </span>
           </button>
         ))}
       </div>
 
-      <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {filtered.map((item, i) => (
-          <button
-            key={`${item.imageKey}-${i}`}
-            type="button"
-            onClick={() => setLightboxIndex(i)}
-            className="group relative aspect-[4/5] overflow-hidden rounded-xl text-left"
-          >
-            <Photo
-              imageKey={item.imageKey}
-              grounding={false}
-              width={640}
-              className="h-full w-full transition-transform duration-500 group-hover:scale-105"
-              sizes="(min-width: 1024px) 25vw, 50vw"
-            />
-            <div className="absolute inset-0 flex items-end bg-gradient-to-t from-navy/80 via-navy/0 to-navy/0 p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <p className="text-sm font-medium text-white">{item.caption}</p>
+      {isBeforeAfter ? (
+        <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {beforeAfterGalleryPairs.map((pair, pairIndex) => (
+            <div key={pair.title + pairIndex}>
+              <div className="grid grid-cols-2 gap-1 overflow-hidden rounded-xl sm:gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setLightboxIndex(pairIndex * 2)}
+                  className="group relative aspect-[4/5] overflow-hidden text-left"
+                >
+                  <Photo
+                    imageKey={pair.beforeKey}
+                    grounding={false}
+                    width={480}
+                    className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+                    sizes="(min-width: 640px) 25vw, 50vw"
+                  />
+                  <span className="absolute top-3 left-3 rounded-full bg-navy-dark/85 px-3 py-1 text-[0.68rem] font-semibold tracking-wide text-white uppercase backdrop-blur-sm">
+                    Before
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLightboxIndex(pairIndex * 2 + 1)}
+                  className="group relative aspect-[4/5] overflow-hidden text-left"
+                >
+                  <Photo
+                    imageKey={pair.afterKey}
+                    grounding={false}
+                    width={480}
+                    className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+                    sizes="(min-width: 640px) 25vw, 50vw"
+                  />
+                  <span className="absolute top-3 left-3 rounded-full bg-gold px-3 py-1 text-[0.68rem] font-semibold tracking-wide text-navy uppercase">
+                    After
+                  </span>
+                </button>
+              </div>
+              <p className="mt-3 text-sm font-medium text-navy">{pair.title}</p>
             </div>
-          </button>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {filtered.map((item, i) => (
+            <button
+              key={`${item.imageKey}-${i}`}
+              type="button"
+              onClick={() => setLightboxIndex(i)}
+              className="group relative aspect-[4/5] overflow-hidden rounded-xl text-left"
+            >
+              <Photo
+                imageKey={item.imageKey}
+                grounding={false}
+                width={640}
+                className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+                sizes="(min-width: 1024px) 25vw, 50vw"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/40 to-transparent px-3 pt-8 pb-3">
+                <p className="text-xs leading-snug font-medium text-white sm:text-sm">{item.caption}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
 
       <AnimatePresence>
         {current && currentImage && (
@@ -108,11 +193,11 @@ export function GalleryGrid() {
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={buildSrc(currentImage.url, 1600)}
+                src={currentResolved!.src}
                 alt={currentImage.alt}
                 fill
                 sizes="90vw"
-                unoptimized
+                unoptimized={currentResolved!.unoptimized}
                 className="rounded-lg object-contain"
               />
             </motion.div>
@@ -127,9 +212,14 @@ export function GalleryGrid() {
             >
               <CaretRight size={20} />
             </button>
-            <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-sm text-white/70">
-              {current.caption}
-            </p>
+            <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1">
+              <p className="text-sm text-white/70">{current.caption}</p>
+              {lightboxIndex !== null && (
+                <p className="text-xs font-medium tracking-wide text-white/40 tabular-nums">
+                  {lightboxIndex + 1} / {lightboxItems.length}
+                </p>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

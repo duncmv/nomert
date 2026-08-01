@@ -5,11 +5,11 @@ import { ButtonLink } from "@/components/ui/button";
 import { RevealGroup, RevealItem } from "@/components/ui/reveal";
 
 const tiles = [
-  { key: "kitchen", span: "sm:col-span-2 sm:row-span-2" },
-  { key: "bathroom", span: "" },
-  { key: "gallery1", span: "" },
-  { key: "garden", span: "" },
-  { key: "painting", span: "sm:col-span-2" },
+  { key: "marbleBathroomFinished1", span: "sm:col-span-2 sm:row-span-2" },
+  { key: "greenTileBathroomFinished1", span: "" },
+  { key: "officeBrandedWallFinished", span: "" },
+  { key: "communalLobbyFinished", span: "" },
+  { key: "bedroomAfterClean5", span: "sm:col-span-2" },
 ];
 
 export function GalleryTeaser() {
@@ -18,10 +18,10 @@ export function GalleryTeaser() {
       <Container>
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <SectionHeading
-            index="03"
+            index="02"
             eyebrow="Our Work"
             title="A closer look at recent projects"
-            description="A snapshot of the standard we work to — browse the full gallery for painting, bathrooms, flooring, repairs and before-and-after transformations."
+            description="A snapshot of the standard we work to — browse the full gallery for bathrooms, commercial fit-outs, cleaning and before-and-after transformations."
             theme="dark"
           />
           <ButtonLink href="/gallery" variant="outline-light" className="shrink-0">
